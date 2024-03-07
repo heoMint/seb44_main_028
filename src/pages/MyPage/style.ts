@@ -360,7 +360,7 @@ export const BorrowWrapper = styled.div`
     }
   }
 `;
-export const BorrowCardWrappre = styled.div`
+export const BorrowCardWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 `;

@@ -5,7 +5,7 @@ import React, {
   ChangeEvent,
   FormEvent,
 } from 'react';
-import { QueryClient, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import {
   UploadBtn,
@@ -16,11 +16,9 @@ import {
   TextWrapper,
   NameWrapper,
   InputWrapper,
-  TownBtn,
   InputBox,
   StyledForm,
   MyPageEdit,
-  DelBtn,
 } from '../style';
 import axios from 'axios';
 import profileImage from '../../../../src/asset/my_page/profile-image.svg';
@@ -29,6 +27,7 @@ import { DefaultBtn } from '../../../common/components/Button';
 import { ACCESS_TOKEN } from '../../Login/constants';
 import useGetMe from '../../../common/utils/customHooks/useGetMe';
 import useDecryptToken from '../../../common/utils/customHooks/useDecryptToken';
+import WithdrawalBtn from './WithdrawalBtn';
 
 function ProfileEdit() {
   const queryClient = useQueryClient();
@@ -37,8 +36,6 @@ function ProfileEdit() {
   const [previewImage, setPreviewImage] = useState<string | null>(profileImage);
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [newDisplayName, setNewDisplayName] = useState<string>('');
-
-  console.log('Initial newDisplayName:', newDisplayName);
 
   const { data: userData } = useGetMe();
   console.log('userData', userData);
@@ -55,7 +52,6 @@ function ProfileEdit() {
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJkaXNwbGF5TmFtZSI6IuuvvO2KuCIsImVtYWlsIjoia2V1bWhlMDExMEBnbWFpbC5jb20iLCJtZW1iZXJJZCI6MjgsInN1YiI6ImtldW1oZTAxMTBAZ21haWwuY29tIiwiaWF0IjoxNjg5NzQwOTU1LCJleHAiOjE2ODk3NDI3NTV9.0pjNsb7VIaknXE3ci2tTPCJ9FXc1fJg8lZz65vLjYAUbmAXCpWuot2DAiNQQ6eg07bGkIDAAyybSJkG-7INwqw`,
           },
         },
       );
@@ -114,10 +110,6 @@ function ProfileEdit() {
       const response = await axios.patch(
         `${process.env.REACT_APP_API_URL}/api/members`,
         formData,
-        // {
-        //   displayName: newDisplayName,
-        //   imageFile: profileImg,
-        // },
 
         {
           headers: {
@@ -193,7 +185,7 @@ function ProfileEdit() {
           수정
         </DefaultBtn>
       </StyledForm>
-      <DelBtn>회원 탈퇴</DelBtn>
+      <WithdrawalBtn />
     </MyPageEdit>
   );
 }

@@ -20,11 +20,12 @@ function LendList({ lendCardData }: { lendCardData: lendCardProps }) {
   const [items, setItems] = useState<lendCardProps[]>([]);
   const [isItemCardClicked, setIsItemCardClicked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); //현재페이지
+
   const [currentStatus, setCurrentStatus] = useState(''); //현재상태
-  const [itemsPerPage] = useState(3);
+  const [itemsPerPage] = useState(100);
+
   const [totalItemsCount, setTotalItemsCount] = useState(0);
   const totalPages = Math.ceil(totalItemsCount / itemsPerPage);
-  console.log('currentStatus:', currentStatus);
 
   const fetchItemsForPage = async (page: number) => {
     const encryptedAccessToken: string | null =

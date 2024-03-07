@@ -20,9 +20,7 @@ function WishList() {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/members/interests`,
         { params: { memberId: 1, page: currentPage, size: itemsPerPage } },
-      ); // 실제 API 엔드포인트에 맞게 수정
-      // console.log(Array.isArray(response.data));
-
+      );
       setItems(response.data.responses);
       setTotalItemsCount(response.data.listSize);
 
@@ -33,10 +31,6 @@ function WishList() {
       console.error('Error fetching wishlist:', error);
     }
   };
-  // console.log('items:', items);
-  // console.log('items의 0번째 인덱스:', items[0]);
-  // console.log(Array.isArray(items));
-  // console.log('totalItemsCount:', totalItemsCount);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
