@@ -79,17 +79,14 @@ function ProfileEdit() {
     if (file) {
       reader.readAsDataURL(file);
       setProfileImg(file);
-      console.log(setProfileImg);
     }
   };
 
   const onDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewDisplayName(e.currentTarget.value);
-    console.log('수정 할 이름 :', e.currentTarget.value);
   };
 
   useEffect(() => {
-    console.log('수정 할 이름 :', newDisplayName);
   }, [newDisplayName]);
 
   const onInputButtonClick = () => {
