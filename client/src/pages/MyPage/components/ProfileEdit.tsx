@@ -111,11 +111,6 @@ function ProfileEdit() {
       const response = await axios.patch(
         `${process.env.REACT_APP_API_URL}/api/members`,
         formData,
-        // {
-        //   displayName: newDisplayName,
-        //   imageFile: profileImg,
-        // },
-
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
