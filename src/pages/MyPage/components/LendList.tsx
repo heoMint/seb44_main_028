@@ -61,31 +61,23 @@ function LendList({ lendCardData }: { lendCardData: lendCardProps }) {
     //예약 요청을 누르면 실행되는 함수
     setCurrentStatus('REQUESTED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
     console.log('예약요청:', items);
   };
   const handleReservedItems = () => {
     setCurrentStatus('RESERVED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
     console.log('예약확정:', items);
   };
 
   const handleCompletedItems = () => {
     setCurrentStatus('COMPLETED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
     console.log('지난예약:', items);
-    // handlePageChange(currentPage);
-    // setIsOpen(true);
   };
   const handleCanceledItems = () => {
     setCurrentStatus('CANCELED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
     console.log('거절한 예약:', items);
-    // handlePageChange(currentPage);
-    // setIsOpen(true);
   };
 
   return (
