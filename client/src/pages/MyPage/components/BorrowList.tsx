@@ -48,15 +48,17 @@ function BorrowList() {
             Authorization: `Bearer ${accessToken}`,
           },
         },
-      ); // 실제 API 엔드포인트에 맞게 수정
+      );
       setItems(response.data.reservations);
       setTotalItemsCount(response.data.pageInfo.totalElements);
     } catch (error) {
       console.error('Error fetching reservations:', error);
     }
   };
+
+  //  items 상태가 변경될 때마다 렌더링 될 아이템들을 출력
   useEffect(() => {
-    console.log('렌더링 될 items:', items);
+    console.log(items);
   }, [items]);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
