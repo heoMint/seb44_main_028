@@ -24,8 +24,8 @@ function LendList({ lendCardData }: { lendCardData: lendCardProps }) {
   const [itemsPerPage] = useState(3);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
   const totalPages = Math.ceil(totalItemsCount / itemsPerPage);
-  console.log('currentStatus:', currentStatus);
 
+  // 여 페이지 번호나 상태가 변경될 때마다 데이터를 가져오는 함수
   const fetchItemsForPage = async (page: number) => {
     const encryptedAccessToken: string | null =
       localStorage.getItem(ACCESS_TOKEN) || '';
@@ -37,11 +37,9 @@ function LendList({ lendCardData }: { lendCardData: lendCardProps }) {
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         },
-      ); // 실제 API 엔드포인트에 맞게 수정
-      console.log(Array.isArray(response));
+      );
       setItems(response.data.products);
       setTotalItemsCount(response.data.pageInfo.totalElements);
-      console.log('product"', response);
     } catch (error) {
       console.error('Error fetching wishlist:', error);
     }
@@ -57,34 +55,20 @@ function LendList({ lendCardData }: { lendCardData: lendCardProps }) {
   }, [currentPage]);
 
   const handleReservationRequest = () => {
-    //예약 요청을 누르면 실행되는 함수
     setCurrentStatus('REQUESTED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
-    console.log('예약요청:', items);
   };
   const handleReservedItems = () => {
     setCurrentStatus('RESERVED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
-    console.log('예약확정:', items);
   };
 
   const handleCompletedItems = () => {
     setCurrentStatus('COMPLETED');
     setCurrentPage(0);
-    // setIsItemCardClicked(false);
-    console.log('지난예약:', items);
-    // handlePageChange(currentPage);
-    // setIsOpen(true);
   };
   const handleCanceledItems = () => {
     setCurrentStatus('CANCELED');
-    setCurrentPage(0);
-    // setIsItemCardClicked(false);
-    console.log('거절한 예약:', items);
-    // handlePageChange(currentPage);
-    // setIsOpen(true);
   };
 
   return (
@@ -130,9 +114,6 @@ function LendList({ lendCardData }: { lendCardData: lendCardProps }) {
             setIsItemCardClicked={setIsItemCardClicked}
           />
         ))}
-        {/* {LENDCARD_DATA.map((item, index) => (
-          <LendCard key={index} lendCardData={item} />
-        ))} */}
       </LendListWrapper>
       <div>
         <Paging
