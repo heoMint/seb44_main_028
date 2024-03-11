@@ -4,7 +4,6 @@ import axios from 'axios';
 import { BorrowWrapper, BorrowCardWrapper } from '../style';
 import { DefaultBtn } from '../../../common/components/Button';
 import { colorPalette } from '../../../common/utils/enum/colorPalette';
-import useGetMe from '../../../common/utils/customHooks/useGetMe';
 import useDecryptToken from '../../../common/utils/customHooks/useDecryptToken';
 import { ACCESS_TOKEN } from '../../Login/constants';
 import BorrowCard from '../../../common/components/MypageCard/BorrowCard';
@@ -18,8 +17,6 @@ interface borrowCardProps {
 }
 function BorrowList() {
   const decrypt = useDecryptToken();
-  const { data: userData } = useGetMe();
-  const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState<borrowCardProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage] = useState(9);
@@ -68,34 +65,24 @@ function BorrowList() {
   const handleReservationRequest = () => {
     setCurrentStatus('REQUESTED');
     setCurrentPage(0);
-    setIsOpen(true);
-    console.log('예약요청:', items);
   };
   const handleReservedItems = () => {
     setCurrentStatus('RESERVED');
     setCurrentPage(0);
-    setIsOpen(true);
-    console.log('예약확정:', items);
   };
   const handleInUseItems = () => {
     setCurrentStatus('INUSE');
     setCurrentPage(0);
-    setIsOpen(true);
-    console.log('사용중인 플레이팩:', items);
   };
 
   const handleCompletedItems = () => {
     setCurrentStatus('COMPLETED');
     setCurrentPage(0);
-    setIsOpen(true);
-    console.log('사용 완료한 플레이팩:', items);
   };
 
   const handleCanceledItems = () => {
     setCurrentStatus('CANCELED');
     setCurrentPage(0);
-    setIsOpen(true);
-    console.log('예약 취소한 내역:', items);
   };
 
   return (
