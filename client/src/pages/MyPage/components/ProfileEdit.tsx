@@ -16,7 +16,6 @@ import {
   TextWrapper,
   NameWrapper,
   InputWrapper,
-  TownBtn,
   InputBox,
   StyledForm,
   MyPageEdit,
@@ -29,20 +28,20 @@ import { DefaultBtn } from '../../../common/components/Button';
 import { ACCESS_TOKEN } from '../../Login/constants';
 import useGetMe from '../../../common/utils/customHooks/useGetMe';
 import useDecryptToken from '../../../common/utils/customHooks/useDecryptToken';
+import { displayName } from 'react-quill';
 
 function ProfileEdit() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { data: userData } = useGetMe(); // 초기에 사용자 정보를 가져오는 hook
   const decrypt = useDecryptToken();
   const [previewImage, setPreviewImage] = useState<string | null>(profileImage);
   const [profileImg, setProfileImg] = useState<File | null>(null);
-  const [newDisplayName, setNewDisplayName] = useState<string>('');
+  const [newDisplayName, setNewDisplayName] = useState<string>(
+    userData?.displayName || '',
+  );
 
-  console.log('Initial newDisplayName:', newDisplayName);
-
-  const { data: userData } = useGetMe();
-  console.log('userData', userData);
-
+  // 업데이트된 사용자 정보를 가져오기 위해 API를 호출
   const fetchUpdatedUserInfo = useCallback(async () => {
     try {
       // queryClient.invalidateQueries('me');
@@ -55,7 +54,6 @@ function ProfileEdit() {
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJkaXNwbGF5TmFtZSI6IuuvvO2KuCIsImVtYWlsIjoia2V1bWhlMDExMEBnbWFpbC5jb20iLCJtZW1iZXJJZCI6MjgsInN1YiI6ImtldW1oZTAxMTBAZ21haWwuY29tIiwiaWF0IjoxNjg5NzQwOTU1LCJleHAiOjE2ODk3NDI3NTV9.0pjNsb7VIaknXE3ci2tTPCJ9FXc1fJg8lZz65vLjYAUbmAXCpWuot2DAiNQQ6eg07bGkIDAAyybSJkG-7INwqw`,
           },
         },
       );
@@ -68,6 +66,7 @@ function ProfileEdit() {
     }
   }, [decrypt]);
 
+  // 프로필 이미지를 업로드하는 함수
   const onUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
@@ -81,26 +80,26 @@ function ProfileEdit() {
       setProfileImg(file);
     }
   };
-
+  // 닉네임 입력의 변경 사항을 처리
   const onDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewDisplayName(e.currentTarget.value);
   };
 
   useEffect(() => {
+    console.log(displayName);
   }, [newDisplayName]);
 
+  // 파일 업로드 함수
   const onInputButtonClick = () => {
     const input = document.getElementById('imgUpload') as HTMLInputElement;
     input.click();
   };
-
+  // 폼 데이터를 생성하고, API를 호출하여 사용자 정보를 업데이트
   const onSubmitForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic here
     const encryptedAccessToken: string | null =
       localStorage.getItem(ACCESS_TOKEN) || '';
     const accessToken = decrypt(encryptedAccessToken);
-
     try {
       const formData = new FormData();
       formData.append('displayName', newDisplayName);
@@ -127,7 +126,7 @@ function ProfileEdit() {
       console.error('회원 정보 수정 중에 오류가 발생했습니다.', error);
     }
   };
-  console.log('이름수정', newDisplayName);
+
   return (
     <MyPageEdit>
       <ProfileEditWrapper>
@@ -159,13 +158,11 @@ function ProfileEdit() {
         <TextWrapper>
           <NameWrapper>
             <div>닉네임</div>
-            <div>내 동네</div>
           </NameWrapper>
           <InputWrapper>
             <InputBox>
-              <input type="text" placeholder="닉네임" />
+              <input type="text" placeholder={userData?.displayName || ''} />
             </InputBox>
-            {/* <TownBtn>내 동네 설정</TownBtn> */}
           </InputWrapper>
         </TextWrapper>
       </ProfileEditWrapper>
